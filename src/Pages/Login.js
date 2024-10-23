@@ -55,7 +55,7 @@ const css = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         alignContent: "center",
-        backgroundColor: "#191919"
+        backgroundColor: "#40C2ED"
     },
     logo: {
         width: "60%",
@@ -67,7 +67,7 @@ const css = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 15,
         padding: 15,
-        backgroundColor: "#262626",
+        backgroundColor: "#C2DEF3",
         color: "white"
     },
     forgot: {
@@ -77,7 +77,7 @@ const css = StyleSheet.create({
         alignItems: "flex-end",
     },
     forgotText: {
-        color: "#0195fd",
+        color: "white",
         fontWeight: "bold"
     },
     btnLogin: {
@@ -86,10 +86,10 @@ const css = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         marginTop: 30,
-        backgroundColor: "#0195fd"
+        backgroundColor: "white"
     },
     btnLoginText: {
-        color: "white",
+        color: "#40C2ED",
         lineHeight: 45,
         textAlign: "center",
         fontSize: 15,

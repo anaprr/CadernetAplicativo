@@ -33,7 +33,10 @@ export default function Foto() {
         setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 
-   
+    async function resetPicture() {
+        setFoto("");
+        setActiveCamera(true);
+    }
 
     async function takePhoto() {
         const options = {
