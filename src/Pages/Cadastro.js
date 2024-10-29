@@ -44,14 +44,18 @@ export default function Insirir() {
     }
 
   return (
-    <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: 'white'}}>
+    <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: '#40C2ED'}}>
         { sucesso ? <Text>CERTO</Text> :
         
         <>
-        <Image source={require("../../assets/LogoCadastro.png")} style={css.logo} />
-        <View style={css.caixatexto}>
-          <Text style={css.textcadastro}>Cadastre-Se</Text>
-        </View>  
+
+            <View style={css.logocaixa}>
+              <Image source={require("../../assets/logo.png")} style={css.logo} />
+            </View>
+          <View style={css.caixatexto}>
+            <Text style={css.textcadastro}>Cadastre-Se</Text>
+          </View>
+          <View style={css.inputcaixa}>
         <TextInput style={css.input}
             placeholder=" Nome" placeholderTextColor={'white'} onChangeText={(digitado) => setNome(digitado)} TextInput={UsuarioNome}
         />
@@ -76,6 +80,9 @@ export default function Insirir() {
         <TextInput style={css.input}
             placeholder=" Frequencia que toma vacina" placeholderTextColor={'white'} onChangeText={(digitado) => setFrequenciaVacina(digitado)} TextInput={FrequenciaVacina}
         />
+        </View>
+        
+         
         </> 
         }
         { erro && <Text>ERRADO</Text>}
@@ -87,51 +94,66 @@ export default function Insirir() {
 }
 
 const css = StyleSheet.create({
-    input: {
-      width: "90%",
-      height: 50,
-      borderRadius: 10,
-      marginBottom: 15,
-      padding: 15,
-      backgroundColor: "#18448F",
-      color: "white"
-    },
-    btnLogin: {
-      width: "90%",
-      height: 50,
-      borderWidth: 1,
-      borderRadius: 10,
-      marginTop: 30,
-      backgroundColor: "gray"
-    },
-    btnLoginText: {
-      color: "white",
-      lineHeight: 45,
-      textAlign: "center",
-      fontSize: 15,
-      fontWeight: "bold"
-    },
-    btnCadastro: {
-      width: "90%",
-      marginTop: 10,
-      justifyContent: "flex-end",
-      alignItems: "flex-end",
-    },
-    btnCadastroText: {
-      color: "#18448F",
-      fontWeight: "bold"
-    },
-    caixatexto:{
-      marginBottom: "10%"
-    },
-    textcadastro:{
-       fontWeight: "bold",
-       fontSize: 25,
-       color: "#18448F"
-    },
-    logo: {
-      width: "40%",
-      alignItems:"center",
-      resizeMode: "contain"
-  }
-})
+ 
+  input: {
+    width: "90%",
+    height: 50,
+    borderRadius: 10,
+    marginBottom: 5,
+    padding: 10,
+    backgroundColor: "#C2DEF3",
+    color: "white",
+    marginLeft: 18
+   
+  },
+  inputcaixa: {
+    width: "100%",
+  
+  },
+  logocaixa: {
+    width: "100%",
+    height: 100,
+
+  },
+  logo: {
+    width: "60%",
+    height: 70,
+    marginLeft: 80
+  },
+  btnLogin: {
+    width: "90%",
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 30,
+    backgroundColor: "white",
+    color:"black"
+  },
+  btnLoginText: {
+    color: "white",
+    lineHeight: 45,
+    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "bold",
+    color:"black"
+  },
+  btnCadastro: {
+    width: "90%",
+    marginTop: 10,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  btnCadastroText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  caixatexto: {
+    
+  },
+  textcadastro: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: "#C2DEF3",
+   
+  },
+});
