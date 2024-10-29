@@ -7,7 +7,7 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
 
-    const { Login, error } = useContext(AuthContext);
+    const { Login, error, setCadastro } = useContext(AuthContext);
 
     function RealizaLogin() {
        Login( email, senha );
@@ -34,6 +34,9 @@ export default function Login() {
                 onChangeText={(digitado) => setSenha(digitado)}
                 placeholderTextColor="white"
             />
+            <TouchableOpacity style={css.Text} onPress={ () => setCadastro( true )}>
+                <Text style={css.Text}> Cadastre-se aqui</Text>
+            </TouchableOpacity>
             <View style={css.forgot}>
                 <Text style={css.forgotText}>Esqueceu a senha?</Text>
             </View>
