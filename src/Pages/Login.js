@@ -16,10 +16,10 @@ export default function Login() {
 
     return (
         <ScrollView contentContainerStyle={css.container}>
-            <Image source={require("../../assets/logo.png")} style={css.logo} />
+            <Image source={require("../../assets/logoApp.png")}/>
             <TextInput
                 inputMode="email"
-                placeholder="Email"
+                placeholder=" Email"
                 style={css.input}
                 value={email}
                 onChangeText={(digitado) => setEmail(digitado)}
@@ -27,21 +27,22 @@ export default function Login() {
             />
             <TextInput
                 inputMode="text"
-                placeholder="Password"
+                placeholder=" Password"
                 secureTextEntry={true}
                 style={css.input}
                 value={senha}
                 onChangeText={(digitado) => setSenha(digitado)}
                 placeholderTextColor="white"
             />
-            <TouchableOpacity style={css.Text} onPress={ () => setCadastro( true )}>
-                <Text style={css.Text}> Cadastre-se aqui</Text>
-            </TouchableOpacity>
+            
             <View style={css.forgot}>
                 <Text style={css.forgotText}>Esqueceu a senha?</Text>
             </View>
             <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
-                <Text style={css.btnLoginText}>Log In</Text>
+                <Text style={css.btnLoginText}>Entrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={css.Text} onPress={ () => setCadastro( true )}>
+                <Text style={css.Text}> Cadastre-se aqui</Text>
             </TouchableOpacity>
             {error &&
                 <View style={css.error}>
@@ -58,29 +59,32 @@ const css = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         alignContent: "center",
-        backgroundColor: "#40C2ED"
+        backgroundColor: "white"
     },
     logo: {
-        width: "60%",
-        resizeMode: "contain"
+        width: "110%",
+        height: 400,
+        resizeMode: "contain",
     },
     input: {
         width: "90%",
         height: 50,
         borderRadius: 10,
         marginBottom: 15,
-        padding: 15,
+       
         backgroundColor: "#C2DEF3",
-        color: "white"
+        color: "white",
+        
+        
     },
     forgot: {
         width: "90%",
-        marginTop: 10,
+        marginTop: 5,
         justifyContent: "flex-end",
         alignItems: "flex-end",
     },
     forgotText: {
-        color: "white",
+        color: "gray",
         fontWeight: "bold"
     },
     btnLogin: {
@@ -88,7 +92,7 @@ const css = StyleSheet.create({
         height: 50,
         borderWidth: 1,
         borderRadius: 10,
-        marginTop: 30,
+        marginTop: 35,
         backgroundColor: "white"
     },
     btnLoginText: {
@@ -104,7 +108,10 @@ const css = StyleSheet.create({
         marginTop: 30
     },
     errorText: {
-        color: "white",
+        color: "black",
         textAlign: "center"
+    },
+    Text:{
+        top: 5
     }
 });
