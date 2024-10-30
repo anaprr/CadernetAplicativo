@@ -1,6 +1,8 @@
 import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native'
 import React, { useState, useContext } from 'react'
 import { AuthContext } from '../Context/AuthContext'
+import { Picker } from '@react-native-picker/picker';
+
 
 export default function Insirir() {
 
@@ -19,7 +21,7 @@ export default function Insirir() {
 
     async function Cadastro(){
         {
-            await fetch('http://10.139.75.22:5251/api/Usuarios/CreateUsuario', {
+            await fetch('http://10.139.75.101:5251/api/Usuarios/GetAllUsuarios', {
               method: 'POST',
               headers: {
                 'content-type': 'application/json'
@@ -68,21 +70,34 @@ export default function Insirir() {
         <TextInput style={css.input}
             placeholder=" Senha" placeholderTextColor={'white'} onChangeText={(digitado) => setSenha(digitado)} TextInput={UsuarioSenha}
         />
-        <TextInput style={css.input}
-            placeholder=" Genero" placeholderTextColor={'white'} onChangeText={(digitado) => setIndicacaoGenero(digitado)} TextInput={IndicacaoGenero}
-        />
+
+      <Picker
+            selectedValue={IndicacaoGenero}
+            onValueChange={(itemValue, itemIndex) => setIndicacaoGenero(itemValue)}
+            style={css.input}
+        >
+        <Picker.Item label="Selecione o Gênero" value=""   />
+        <Picker.Item label="Feminino" value="Feminino" />
+        <Picker.Item label="Masculino" value="Masculino" />
+      </Picker>
+      
         <TextInput style={css.input}
             placeholder=" Data de Nascimento" placeholderTextColor={'white'} onChangeText={(digitado) => setDataNascimento(digitado)} TextInput={UsuarioDataNascimento}
         />
         <TextInput style={css.input}
             placeholder=" Idade" placeholderTextColor={'white'} onChangeText={(digitado) => setIdade(digitado)} TextInput={UsuarioIdade}
         />
-        <TextInput style={css.input}
-            placeholder=" Frequencia que toma vacina" placeholderTextColor={'white'} onChangeText={(digitado) => setFrequenciaVacina(digitado)} TextInput={FrequenciaVacina}
-        />
+        <Picker
+            selectedValue={FrequenciaVacina}
+            onValueChange={(itemValue, itemIndex) => setFrequenciaVacina(itemValue)}
+            style={css.input}
+        >
+        <Picker.Item label="Toma Vacina com Frequencia?" value="" />
+        <Picker.Item label="Sim" value="Sim" />
+        <Picker.Item label="Não" value="Não" />
+        </Picker>
+
         </View>
-        
-         
         </> 
         }
         { erro && <Text>ERRADO</Text>}
@@ -98,14 +113,15 @@ const css = StyleSheet.create({
   input: {
     width: "90%",
     height: 50,
-    borderRadius: 10,
+    
     marginBottom: 5,
     padding: 10,
     backgroundColor: "#C2DEF3",
     color: "white",
-    marginLeft: 18
+    marginLeft: 20
    
   },
+  
   inputcaixa: {
     width: "100%",
   
@@ -126,8 +142,8 @@ const css = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginTop: 30,
-    backgroundColor: "white",
-    color:"black"
+    backgroundColor: "#C2DEF3",
+    borderColor:"#C2DEF3"
   },
   btnLoginText: {
     color: "white",
@@ -135,7 +151,7 @@ const css = StyleSheet.create({
     textAlign: "center",
     fontSize: 15,
     fontWeight: "bold",
-    color:"black"
+    color:"#40C2ED"
   },
   btnCadastro: {
     width: "90%",
@@ -153,7 +169,7 @@ const css = StyleSheet.create({
   textcadastro: {
     fontWeight: "bold",
     fontSize: 25,
-    color: "#C2DEF3",
-   
+    color: "white",
+    bottom: 16
   },
 });
