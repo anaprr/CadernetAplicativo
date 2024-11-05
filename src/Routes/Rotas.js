@@ -9,6 +9,8 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
 
+import Recomendacao from '../Pages/Recomendacao';
+
 const Tab = createBottomTabNavigator();
 
 export default function Rotas() {
@@ -41,6 +43,15 @@ export default function Rotas() {
                     }}
                 />
                 <Tab.Screen
+                    name="Recomendacao"
+                    component={Recomendacao}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="home" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
                     name="Foto"
                     component={Foto}
                     options={{
@@ -49,6 +60,7 @@ export default function Rotas() {
                         ),
                     }}
                 />
+                
             </Tab.Navigator>
         </NavigationContainer>
     )
