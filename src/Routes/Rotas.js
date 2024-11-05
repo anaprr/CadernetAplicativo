@@ -9,6 +9,7 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
 import Cadastro from '../Pages/Cadastro';
+import Usuario from '../Pages/Usuario';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,6 +52,15 @@ export default function Rotas() {
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Usuario"
+                    component={Usuario}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="home" color={color} size={size} />
                         ),
                     }}
                 />

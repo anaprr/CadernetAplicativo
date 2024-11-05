@@ -19,7 +19,7 @@ export default function Login() {
             <Image source={require("../../assets/logoApp.png")}/>
             <TextInput
                 inputMode="email"
-                placeholder=" Email"
+                placeholder=" Digite aqui seu email"
                 style={css.input}
                 value={email}
                 onChangeText={(digitado) => setEmail(digitado)}
@@ -27,7 +27,7 @@ export default function Login() {
             />
             <TextInput
                 inputMode="text"
-                placeholder=" Password"
+                placeholder=" Digite aqui sua Senha"
                 secureTextEntry={true}
                 style={css.input}
                 value={senha}
@@ -35,12 +35,12 @@ export default function Login() {
                 placeholderTextColor="white"
             />
             
-            <View style={css.forgot}>
-                <Text style={css.forgotText}>Esqueceu a senha?</Text>
-            </View>
             <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
                 <Text style={css.btnLoginText}>Entrar</Text>
             </TouchableOpacity>
+            <View style={css.forgot}>
+                <Text style={css.forgotText}>Não tem uma conta?</Text>
+            </View>
             <TouchableOpacity style={css.Text} onPress={ () => setCadastro( true )}>
                 <Text style={css.Text}> Cadastre-se aqui</Text>
             </TouchableOpacity>
@@ -85,7 +85,9 @@ const css = StyleSheet.create({
     },
     forgotText: {
         color: "gray",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginRight: "60%",
+        padding: 5
     },
     btnLogin: {
         width: "90%",
@@ -112,6 +114,7 @@ const css = StyleSheet.create({
         textAlign: "center"
     },
     Text:{
-        top: 5
+        top: -12,
+        marginLeft:"30%"
     }
 });
