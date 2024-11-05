@@ -8,6 +8,7 @@ import { AuthContext } from '../Context/AuthContext';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
+import Cadastro from '../Pages/Cadastro';
 
 import Recomendacao from '../Pages/Recomendacao';
 
@@ -15,10 +16,14 @@ const Tab = createBottomTabNavigator();
 
 export default function Rotas() {
 
-    const { logado } = useContext(AuthContext);
+    const { logado, cadastro, setCadastro } = useContext(AuthContext);
 
-    if (!logado) {
+    if (!logado && !cadastro ) {
         return (<Login />)
+    }
+
+    if( !logado && cadastro ) {
+        return ( <Cadastro />)
     }
 
     return (
