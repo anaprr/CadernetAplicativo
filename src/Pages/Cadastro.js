@@ -20,7 +20,7 @@ export default function Insirir() {
 
   async function Cadastro() {
     try {
-      const response = await fetch('http://10.139.75.101:5251/api/Usuarios/InsertUsuarios', {
+      const response = await fetch('http://10.139.75.98:5251/api/Usuarios/InsertUsuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -60,7 +60,6 @@ export default function Insirir() {
   return (
     <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: 'white' }}>
       {sucesso ? (
-        // Exibe a mensagem de sucesso e o botão para voltar ao login
         <View style={{ alignItems: 'center' }}>
           <Text style={{ fontSize: 18, color: 'green', marginBottom: 20 }}>Cadastro realizado com sucesso!</Text>
           <TouchableOpacity style={css.btnCadastro} onPress={() => setCadastro(false)}>
@@ -68,7 +67,6 @@ export default function Insirir() {
           </TouchableOpacity>
         </View>
       ) : (
-        // Exibe o formulário
         <>
           <View style={css.logocaixa}>
             <Image source={require("../../assets/logoApp.png")} style={css.logo} />

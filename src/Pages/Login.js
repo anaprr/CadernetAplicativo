@@ -10,7 +10,7 @@ export default function Login() {
     const { Login, error, setCadastro } = useContext(AuthContext);
 
     function RealizaLogin() {
-       Login( email, senha );
+        Login(email, senha);
     }
 
 
