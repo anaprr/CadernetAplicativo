@@ -9,7 +9,6 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Cadastro from '../Pages/Cadastro';
 import Recomendacao from '../Pages/Recomendacao';
-import Usuario from '../Pages/Usuario';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,6 +63,7 @@ export default function Rotas() {
                         ),
                     }}
                 />
+                
             </Tab.Navigator>
         </NavigationContainer>
     )
