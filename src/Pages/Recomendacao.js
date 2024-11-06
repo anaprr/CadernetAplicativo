@@ -16,7 +16,7 @@ export default function Recomendacao() {
 
     async function getVacinas(event) {
         const { position } = event.nativeEvent;
-        await fetch('http://10.139.75.98:5251/api/Vacinas/GetVacinasIdade/' + keys[position] )
+        await fetch('http://10.139.75.38:5251/api/Vacinas/GetVacinasIdade/' + keys[position] )
             .then(res => res.json())
             .then(json => {
                 setVacinas(json);
