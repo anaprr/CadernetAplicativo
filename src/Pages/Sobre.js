@@ -4,24 +4,24 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 export default function AboutScreen() {
   return (
     <View style={styles.container}>
-      {/* Logo */}
+      
       <Image
-        source={{ uri: 'https://link-da-imagem-do-logo.png' }}
+        source={require("../../assets/IconeLogoCadernet.png")}
         style={styles.logo}
       />
 
-      {/* Imagem principal */}
+      
       <Image
-        source={{ uri: 'https://link-da-imagem-ilustracao.png' }}
+        source={require("../../assets/sobre.png")}
         style={styles.mainImage}
       />
 
-      {/* Texto principal */}
+      
       <Text style={styles.text}>
         Cadernet há <Text style={styles.highlight}>25 anos</Text> no mercado
       </Text>
 
-      {/* Botão Saiba Mais */}
+      
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Saiba mais</Text>
       </TouchableOpacity>
@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 30,
-    height: 30,
-    marginBottom: 20,
+    height: 40,
+    marginBottom: 95,
+    marginLeft:20
+   
   },
   mainImage: {
-    width: 200,
-    height: 150,
+    width: 700,
+    height: 350,
     resizeMode: 'contain',
     marginBottom: 20,
   },

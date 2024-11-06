@@ -11,6 +11,8 @@ import Foto from '../Pages/Foto';
 import Cadastro from '../Pages/Cadastro';
 
 import Recomendacao from '../Pages/Recomendacao';
+import Conexoes from '../Pages/Conexoes';
+import Sobre from '../Pages/Sobre';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +61,24 @@ export default function Rotas() {
                 <Tab.Screen
                     name="Foto"
                     component={Foto}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Conexoes"
+                    component={Conexoes}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Sobre"
+                    component={Sobre}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
