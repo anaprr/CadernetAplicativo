@@ -1,6 +1,7 @@
 import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import PagerView from 'react-native-pager-view';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Conexoes() {
     const [vacinas, setVacinas] = useState([]);
@@ -11,6 +12,7 @@ export default function Conexoes() {
       
     const [exibe, setExibe] = useState(false); 
     const [mostra, setMostra] = useState(false); 
+    const navigation = useNavigation();
 
     async function getVacinas() {
         setLoading(true); 
@@ -61,12 +63,12 @@ export default function Conexoes() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.caixatop}>
+            <TouchableOpacity style={styles.caixatop} onPress={() => navigation.navigate('Home')}>
                 <Image style={styles.logo} source={require('../../assets/IconeLogoCadernet.png')} />
                 <Text style={{ textAlign: 'center', marginTop: 35 }}>
                     Observe as experiências de outros pacientes com a vacina.
                 </Text>
-            </View>
+            </TouchableOpacity>
     
             <View style={styles.vacinalista}>
                 {loading ? (

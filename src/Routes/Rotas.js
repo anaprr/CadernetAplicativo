@@ -1,4 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -14,17 +15,31 @@ import Conexoes from '../Pages/Conexoes';
 import Sobre from '../Pages/Sobre';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+
+function HomeStack() {
+    return (
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+            <Stack.Screen name="Sobre" component={Sobre} options={{ headerShown: false }} />
+            <Stack.Screen name="Usuario" component={Usuario} options={{ title: 'Perfil do Usuário' }} />
+            <Stack.Screen name="Conexoes" component={Conexoes} options={{ headerShown: false }} />
+            <Stack.Screen name="Recomendacao" component={Recomendacao} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    );
+}
 
 export default function Rotas() {
-
     const { logado, cadastro, setCadastro } = useContext(AuthContext);
 
-    if (!logado && !cadastro ) {
-        return (<Login />)
+    // Exibe a tela de login ou cadastro conforme o estado de autenticação
+    if (!logado && !cadastro) {
+        return <Login />;
     }
 
-    if( !logado && cadastro ) {
-        return ( <Cadastro />)
+    if (!logado && cadastro) {
+        return <Cadastro />;
     }
 
     return (
@@ -36,12 +51,12 @@ export default function Rotas() {
                     tabBarStyle: {
                         backgroundColor: '#191919',
                     },
-                    tabBarActiveTintColor: "white"
+                    tabBarActiveTintColor: 'white',
                 }}
             >
                 <Tab.Screen
-                    name="Home"
-                    component={Home}
+                    name="HomeStack"
+                    component={HomeStack} // Usa o stack com Home e Sobre
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -67,7 +82,7 @@ export default function Rotas() {
                     }}
                 />
                 <Tab.Screen
-                    name="Conexões"
+                    name="Conexoes"
                     component={Conexoes}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -75,16 +90,8 @@ export default function Rotas() {
                         ),
                     }}
                 />
-                <Tab.Screen
-                    name="Sobre"
-                    component={Sobre}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="camera" color={color} size={size} />
-                        ),
-                    }}
-                />
+                
             </Tab.Navigator>
         </NavigationContainer>
-    )
+    );
 }

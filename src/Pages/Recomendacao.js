@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import PagerView from 'react-native-pager-view';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Recomendacao() {
 
@@ -13,7 +14,7 @@ export default function Recomendacao() {
     const [loading, setLoading] = useState(false);
 
     const keys = [ 1, 2, 3, 5, 6 ];
-
+    const navigation = useNavigation();
 
     async function getVacinas(event) {
         const { position } = event.nativeEvent;
@@ -38,12 +39,12 @@ export default function Recomendacao() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.caixatop}>
+            <TouchableOpacity style={styles.caixatop} onPress={() => navigation.navigate('Home')}>
                 <Image style={styles.logo} source={require('../../assets/logoApp.png')} />
                 <Text style={{ textAlign: 'center', marginTop: -20 }}>
                     Mova a tela para verificar as recomendações para outras idades.
                 </Text>
-            </View>
+            </TouchableOpacity>
             <PagerView style={styles.container} initialPage={0} onPageSelected={(event) => getVacinas(event)}>
                 <View style={styles.page} key="1">
                     <View style={styles.caixa1}>
