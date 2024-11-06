@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image } from 'react-native';
+import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -8,6 +8,7 @@ export default function Recomendacao() {
 
     const [vacinas, setVacinas] = useState([]);
     const [error, setError] = useState(false);
+    const [exibeId, setExibeId] = useState(null);  
 
     const [loading, setLoading] = useState(false);
 
@@ -30,11 +31,16 @@ export default function Recomendacao() {
         }, [])
     );
 
+    
+    const FuncionaDetalhe = (vacinaId) => {
+        setExibeId((prevId) => (prevId === vacinaId ? null : vacinaId)); 
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.caixatop}>
-                <Image style={styles.logo} source={require('../../assets/IconeLogoCadernet.png')} />
-                <Text style={{ textAlign: 'center', marginTop: 35 }}>
+                <Image style={styles.logo} source={require('../../assets/logoApp.png')} />
+                <Text style={{ textAlign: 'center', marginTop: -20 }}>
                     Mova a tela para verificar as recomendações para outras idades.
                 </Text>
             </View>
@@ -52,7 +58,20 @@ export default function Recomendacao() {
                                 renderItem={({ item }) => (
                                     <View style={styles.caixavacina}>
                                         <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                        <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
+                                        <TouchableOpacity
+                                            style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                            onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                        >
+                                            <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                                {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                            </Text>
+                                        </TouchableOpacity>
+    
+                                        {exibeId === item.vacinaId && ( 
+                                            <View>
+                                                    <Text>{item.vacinaDescricao}</Text>
+                                            </View>
+                                        )}
                                     </View>
                                 )}
                             />
@@ -148,10 +167,10 @@ export default function Recomendacao() {
                 <View style={styles.page} key="6">
                     <View style={styles.caixa1}>
                         <View>
-                            <Image style={styles.imagem1} source={{ uri: 'https://greenpng.com/wp-content/uploads/2022/09/Desenho-de-uma-mulher-gravida-476x1024.png' }} ></Image>
+                            <Image style={ { width: 90, height: 190, }} source={{ uri: 'https://greenpng.com/wp-content/uploads/2022/09/Desenho-de-uma-mulher-gravida-476x1024.png' }} ></Image>
                         </View>
                         <View>
-                            <Text style={{ marginTop: 30 }}>periodo gestacional</Text>
+                            <Text style={{ marginTop: 10 }}>periodo gestacional</Text>
                         </View>
                     </View>
                     <View style={styles.vacinalista}>
@@ -191,9 +210,9 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     logo: {
-        width: 30,
-        height: 40,
-        marginTop: 30
+        width: 150,
+        height: 160,
+
     },
 
     page: {
@@ -205,7 +224,7 @@ const styles = StyleSheet.create({
         width: 160,
         height: 190,
         borderRadius: 15,
-        marginTop: 40,
+        marginTop: 50,
         alignItems: 'center'
 
     },

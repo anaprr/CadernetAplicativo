@@ -1,17 +1,19 @@
-import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image } from 'react-native';
+import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
 import PagerView from 'react-native-pager-view';
 
 export default function Conexoes() {
     const [vacinas, setVacinas] = useState([]);
+    const [avaliacao, setAvaliacao] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // Função para obter as vacinas da API
+      
+    const [exibe, setExibe] = useState(false); 
+    const [mostra, setMostra] = useState(false); 
+
     async function getVacinas() {
-        setLoading(true); // Começa o carregamento
+        setLoading(true); 
         try {
             const response = await fetch('http://10.139.75.38:5251/api/Vacinas/GetAllVacinas');
             const data = await response.json();
@@ -28,7 +30,35 @@ export default function Conexoes() {
         getVacinas();
     }, []); 
 
-    // Exibição da tela
+
+    async function getAvaliacao() {
+        setLoading(true); 
+        try {
+            const response = await fetch('http://10.139.75.38:5251/api/Avaliacaos/GetAllAvaliacaos');
+            const data = await response.json();
+            setAvaliacao(data); 
+        } catch (err) {
+            setError(true); 
+        } finally {
+            setLoading(false); 
+        }
+    }
+
+
+    useEffect(() => {
+        getAvaliacao();
+    }, []); 
+
+
+    
+    const [exibeId, setExibeId] = useState(null);  
+
+
+    const FuncionaDetalhe = (vacinaId) => {
+        setExibeId((prevId) => (prevId === vacinaId ? null : vacinaId)); 
+    };
+    
+
     return (
         <View style={styles.container}>
             <View style={styles.caixatop}>
@@ -37,24 +67,47 @@ export default function Conexoes() {
                     Observe as experiências de outros pacientes com a vacina.
                 </Text>
             </View>
-
+    
             <View style={styles.vacinalista}>
                 {loading ? (
-                    <ActivityIndicator size="large" color="#079EFF" /> // Exibe um carregando se estiver buscando os dados
+                    <ActivityIndicator size="large" color="#079EFF" />
                 ) : error ? (
-                    <Text style={{ color: 'red' }}>Erro ao carregar as vacinas. Tente novamente!</Text> // Exibe uma mensagem de erro se a requisição falhar
+                    <Text style={{ color: 'red' }}>Erro ao carregar as vacinas. Tente novamente!</Text>
                 ) : (
                     <FlatList
                         data={vacinas}
-                        keyExtractor={(item) => item.vacinaId.toString()} // Usando o ID da vacina como chave
+                        keyExtractor={(item) => item.vacinaId.toString()}
                         renderItem={({ item }) => (
                             <View style={styles.caixavacina}>
                                 <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>
-                                    {item.vacinaNome} {/* Exibe o nome da vacina */}
+                                    {item.vacinaNome}
                                 </Text>
-                                <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>
-                                    Exibir Mais
-                                </Text>
+    
+                                <TouchableOpacity
+                                    style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                    onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                >
+                                    <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                        {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                    </Text>
+                                </TouchableOpacity>
+    
+                                {exibeId === item.vacinaId && ( 
+                                    <View>
+                                       
+                                        <FlatList
+                                            data={avaliacao.filter(a => a.vacinaId === item.vacinaId)}  
+                                            keyExtractor={(avaliacaoItem) => avaliacaoItem.avaliacaoId.toString()}
+                                            renderItem={({ item: avaliacaoItem }) => (
+                                                                                        <View>
+                                                                                            <Text style={{ fontWeight: 'bold' }}>
+                                                                                                {avaliacaoItem.avaliacaoDor}  
+                                                                                            </Text>
+                                                                                        </View>
+                                                                                    )}
+                                        />
+                                    </View>
+                                )}
                             </View>
                         )}
                     />
