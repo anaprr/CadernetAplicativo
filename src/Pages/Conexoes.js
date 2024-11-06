@@ -17,7 +17,7 @@ export default function Conexoes() {
 
     async function getVacinas(event) {
         const { position } = event.nativeEvent;
-        await fetch('http://10.139.75.38:5251/api/Vacinas/GetVacinasIdade/' )
+        await fetch('http://10.139.75.101:5251/api/Vacinas/GetVacinasIdade/' )
             .then(res => res.json())
             .then(json => {
                 setVacinas(json);

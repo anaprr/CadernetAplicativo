@@ -30,7 +30,7 @@ export default function Usuario() {
       }, [])
   );
   async function getUsuarios(){
-    await fetch('http://10.139.75.98:5251/api/Usuarios/GetAllUsuarios' , {
+    await fetch('http://10.139.75.101:5251/api/Usuarios/GetAllUsuarios' , {
             method: 'GET',
             headers:{
                 'content-type' : 'application/json'
