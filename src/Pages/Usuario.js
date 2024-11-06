@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, FlatList } from 'react-native'
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Usuarios from '../Components/Usuarios'
 import { ActivityIndicator } from 'react-native';
@@ -8,8 +8,15 @@ import PagerView from 'react-native-pager-view';
 
 export default function Usuario() {
 
-    const[usuarios, setUsuarios] = useState([]);
-    const[error, setError] = useState(false);
+  const[usuarios, setUsuarios] = useState([]);
+  const[error, setError] = useState(false);
+  const[edicao, setEdicao] = useState(false);
+  const[usuarioId, setUsuarioId] = useState(0);
+  const[usuarioNome, setUsuarioNome] = useState();
+  const[usuarioIdade, setUsuarioIdade] = useState();
+  const[deleteResposta, setResposta] = useState(false);
+
+
 
   async function getUsuarios(){
     await fetch('http://10.139.75.98:5251/api/Usuarios/GetAllUsuarios' , {
@@ -23,9 +30,35 @@ export default function Usuario() {
         .catch(err => setError(true))
   }
 
+  async function getUsuario(id)
+  {    
+    await fetch('http://10.139.75.98:5251/api/Usuarios/GetUsuarioId/' + id,{
+            method: 'GET',
+            headers: {
+                'Content-type' : 'application/json; charset=UTF-8',
+            },
+        })
+        .then((response)=> response.json())        
+        .then(json=>{
+          setUsuarioId(json.usuarioId);
+          setUsuarioNome(json.usuarioName);
+          setUsuarioIdade(json.usuarioIdade);
+          
+        });
+  }
+
   useEffect(() => {
     getUsuarios();
   }, [])
+
+  useFocusEffect(
+    React.useCallback(()=>{
+      getUsuarios();
+    },[])
+  );
+
+
+
 
   return (
     <View >
@@ -49,6 +82,8 @@ export default function Usuario() {
             <ActivityIndicator size="large" color="#3097ff" />
         )
       }
+
+      
      
   </View>
     </View>
@@ -56,6 +91,9 @@ export default function Usuario() {
   )
   
 }
+
+
+
 const css = StyleSheet.create({
     container: {
     flexGrow: 1,

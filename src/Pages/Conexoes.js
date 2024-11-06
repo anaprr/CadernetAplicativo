@@ -5,70 +5,63 @@ import { ScrollView } from 'react-native-gesture-handler';
 import PagerView from 'react-native-pager-view';
 
 export default function Conexoes() {
-
-
     const [vacinas, setVacinas] = useState([]);
     const [error, setError] = useState(false);
-
     const [loading, setLoading] = useState(false);
 
-    const keys = [ 1, 2, 3, 5, 6 ];
-
-
-    async function getVacinas(event) {
-        const { position } = event.nativeEvent;
-        await fetch('http://10.139.75.38:5251/api/Vacinas/GetVacinasIdade/' )
-            .then(res => res.json())
-            .then(json => {
-                setVacinas(json);
-            })
-            .catch(err => setError(true))
+    // Função para obter as vacinas da API
+    async function getVacinas() {
+        setLoading(true); // Começa o carregamento
+        try {
+            const response = await fetch('http://10.139.75.98:5251/api/Vacinas/GetAllVacinas');
+            const data = await response.json();
+            setVacinas(data); 
+        } catch (err) {
+            setError(true); 
+        } finally {
+            setLoading(false); 
+        }
     }
 
-    useFocusEffect(
-        React.useCallback(() => {
-            //  getVacinas(1);
-        }, [])
-    );
 
-  return (
-    <View style={styles.container}>
-    <View style={styles.caixatop}>
-        <Image style={styles.logo} source={require('../../assets/IconeLogoCadernet.png')} />
-        <Text style={{ textAlign: 'center', marginTop: 35 }}>
-                Observe as experiencias de outros pacientes com a vacina.
-        </Text>
-    </View>
-    <View style={styles.container} >
-        <View style={styles.page} key="1">
-            <View style={styles.caixa1}>
-                <Image style={styles.imagem1} source={{ uri: 'https://images.vexels.com/content/284336/preview/baby-cookie-people-fcc836.png' }} />
-                <Text style={{ marginTop: 30 }}>0-10 anos</Text>
+    useEffect(() => {
+        getVacinas();
+    }, []); 
+
+    // Exibição da tela
+    return (
+        <View style={styles.container}>
+            <View style={styles.caixatop}>
+                <Image style={styles.logo} source={require('../../assets/IconeLogoCadernet.png')} />
+                <Text style={{ textAlign: 'center', marginTop: 35 }}>
+                    Observe as experiências de outros pacientes com a vacina.
+                </Text>
             </View>
-            {vacinas ?
-                <View style={styles.vacinalista}>
+
+            <View style={styles.vacinalista}>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#079EFF" /> // Exibe um carregando se estiver buscando os dados
+                ) : error ? (
+                    <Text style={{ color: 'red' }}>Erro ao carregar as vacinas. Tente novamente!</Text> // Exibe uma mensagem de erro se a requisição falhar
+                ) : (
                     <FlatList
                         data={vacinas}
-                        keyExtractor={(item) => item.vacinaId.toString()}
+                        keyExtractor={(item) => item.vacinaId.toString()} // Usando o ID da vacina como chave
                         renderItem={({ item }) => (
                             <View style={styles.caixavacina}>
-                                <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
+                                <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>
+                                    {item.vacinaNome} {/* Exibe o nome da vacina */}
+                                </Text>
+                                <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>
+                                    Exibir Mais
+                                </Text>
                             </View>
                         )}
                     />
-                </View>
-                :
-                <ActivityIndicator size="large" />
-            }
+                )}
+            </View>
         </View>
-        
-     
-
-
-    </View>
-</View>
-  )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -109,6 +102,8 @@ const styles = StyleSheet.create({
     caixavacina: {
         alignItems: 'center',
         marginTop: 50,
+        marginBottom: 20,
+        marginLeft: 15,
         flexDirection: 'row',
         backgroundColor: '#A9DDFF',
         opacity: 0.5,

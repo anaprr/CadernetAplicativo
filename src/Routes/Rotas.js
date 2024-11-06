@@ -10,6 +10,7 @@ import Login from '../Pages/Login';
 import Cadastro from '../Pages/Cadastro';
 import Recomendacao from '../Pages/Recomendacao';
 import Usuario from '../Pages/Usuario';
+import Conexoes from '../Pages/Conexoes';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +65,15 @@ export default function Rotas() {
                         ),
                     }}
                 />
-                
+                <Tab.Screen
+                    name="Conexões"
+                    component={Conexoes}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
             </Tab.Navigator>
         </NavigationContainer>
     )
