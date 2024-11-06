@@ -20,7 +20,7 @@ export default function Insirir() {
 
   async function Cadastro() {
     try {
-      const response = await fetch('http://10.139.75.38:5251/api/Usuarios/InsertUsuarios', {
+      const response = await fetch('http://10.139.75.101:5251/api/Usuarios/InsertUsuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -127,13 +127,11 @@ const css = StyleSheet.create({
   input: {
     width: "90%",
     height: 50,
-    
     marginBottom: 5,
     padding: 10,
     backgroundColor: "#C2DEF3",
     color: "white",
     marginLeft: 20
-   
   },
   
   inputcaixa: {
