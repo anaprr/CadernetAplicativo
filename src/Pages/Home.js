@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { AuthContext } from '../Context/AuthContext';
 
 export default function Home() {
+
+  
   return (
     <View style={css.container}>
       <View style={css.logocaixa}>
@@ -11,12 +14,13 @@ export default function Home() {
       
       <View style={css.opcoes}>
       
-        <TouchableOpacity style={css.quadrados}>
+        <TouchableOpacity style={css.quadrados} >
           <Image
             source={require("../../assets/pessoavacina.png")}
             style={css.icones}
           />
           <Text style={css.texto}>Vacinações</Text>
+          
         </TouchableOpacity>
 
         <TouchableOpacity style={css.quadrados}>
