@@ -16,7 +16,7 @@ export default function Usuario() {
 
     async function getVacinas(event) {
         const { position } = event.nativeEvent;
-        await fetch('http://10.139.75.98:5251/api/Vacinas/GetVacinasIdade/' + keys[position] )
+        await fetch('http://10.139.75.38:5251/api/Vacinas/GetVacinasIdade/' + keys[position] )
             .then(res => res.json())
             .then(json => {
                 setVacinas(json);
@@ -30,7 +30,7 @@ export default function Usuario() {
       }, [])
   );
   async function getUsuarios(){
-    await fetch('http://10.139.75.101:5251/api/Usuarios/GetAllUsuarios' , {
+    await fetch('http://10.139.75.98:5251/api/Usuarios/GetAllUsuarios' , {
             method: 'GET',
             headers:{
                 'content-type' : 'application/json'

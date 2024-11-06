@@ -5,10 +5,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import PagerView from 'react-native-pager-view';
 
 export default function Conexoes() {
-
     const [vacinas, setVacinas] = useState([]);
     const [error, setError] = useState(false);
-
     const [loading, setLoading] = useState(false);
 
     const keys = [ 1, 2, 3, 5, 6 ];
@@ -16,7 +14,7 @@ export default function Conexoes() {
 
     async function getVacinas(event) {
         const { position } = event.nativeEvent;
-        await fetch('http://10.139.75.38:5251/api/Vacinas/GetVacinasIdade/' )
+        await fetch('http://10.139.75.38:5251/api/Vacinas/GetAllVacinas' )
             .then(res => res.json())
             .then(json => {
                 setVacinas(json);
@@ -35,36 +33,34 @@ export default function Conexoes() {
             <View style={styles.caixatop}>
                 <Image style={styles.logo} source={require('../../assets/IconeLogoCadernet.png')} />
                 <Text style={{ textAlign: 'center', marginTop: 35 }}>
-                Observe as experiencias de outros pacientes com a vacina.
+                    Observe as experiências de outros pacientes com a vacina.
                 </Text>
             </View>
-            <View style={styles.container} initialPage={0} onPageSelected={(event) => getVacinas(event)}>
-                <View style={styles.page} key="1">
-                    
-                    {vacinas ?
-                        <View style={styles.vacinalista}>
-                            <FlatList
-                                data={vacinas}
-                                keyExtractor={(item) => item.vacinaId.toString()}
-                                renderItem={({ item }) => (
-                                    <View style={styles.caixavacina}>
-                                        <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                        <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-                        :
-                        <ActivityIndicator size="large" />
-                    }
-                </View>
-                
-            
 
-
+            <View style={styles.vacinalista}>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#079EFF" /> // Exibe um carregando se estiver buscando os dados
+                ) : error ? (
+                    <Text style={{ color: 'red' }}>Erro ao carregar as vacinas. Tente novamente!</Text> // Exibe uma mensagem de erro se a requisição falhar
+                ) : (
+                    <FlatList
+                        data={vacinas}
+                        keyExtractor={(item) => item.vacinaId.toString()} // Usando o ID da vacina como chave
+                        renderItem={({ item }) => (
+                            <View style={styles.caixavacina}>
+                                <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>
+                                    {item.vacinaNome} {/* Exibe o nome da vacina */}
+                                </Text>
+                                <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>
+                                    Exibir Mais
+                                </Text>
+                            </View>
+                        )}
+                    />
+                )}
             </View>
         </View>
-  )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -105,7 +101,8 @@ const styles = StyleSheet.create({
     caixavacina: {
         alignItems: 'center',
         marginTop: 50,
-        marginBottom: 10,
+        marginBottom: 20,
+        marginLeft: 15,
         flexDirection: 'row',
         backgroundColor: '#A9DDFF',
         opacity: 0.5,
