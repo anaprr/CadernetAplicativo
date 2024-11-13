@@ -1,76 +1,76 @@
 import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
+
 
 export default function Conexoes() {
     const [vacinas, setVacinas] = useState([]);
     const [avaliacao, setAvaliacao] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-
-      
-    const [exibe, setExibe] = useState(false); 
-    const [mostra, setMostra] = useState(false); 
+    const [exibe, setExibe] = useState(false);
+    const [mostra, setMostra] = useState(false);
     const navigation = useNavigation();
+    const [fontStyleIdx, setFontStyleIdx] = useState(0);
 
     async function getVacinas() {
-        setLoading(true); 
+        setLoading(true);
         try {
-            const response = await fetch('http://10.139.75.38:5251/api/Vacinas/GetAllVacinas');
+            const response = await fetch('http://10.139.75.47:5251/api/Vacinas/GetAllVacinas');
             const data = await response.json();
-            setVacinas(data); 
+            setVacinas(data);
         } catch (err) {
-            setError(true); 
+            setError(true);
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     }
 
 
     useEffect(() => {
         getVacinas();
-    }, []); 
+    }, []);
 
 
     async function getAvaliacao() {
-        setLoading(true); 
+        setLoading(true);
         try {
-            const response = await fetch('http://10.139.75.38:5251/api/Avaliacaos/GetAllAvaliacaos');
+            const response = await fetch('http://10.139.75.47:5251/api/Avaliacaos/GetAllAvaliacaos');
             const data = await response.json();
-            setAvaliacao(data); 
+            setAvaliacao(data);
         } catch (err) {
-            setError(true); 
+            setError(true);
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     }
 
 
     useEffect(() => {
         getAvaliacao();
-    }, []); 
+    }, []);
 
 
-    
-    const [exibeId, setExibeId] = useState(null);  
+
+    const [exibeId, setExibeId] = useState(null);
 
 
     const FuncionaDetalhe = (vacinaId) => {
-        setExibeId((prevId) => (prevId === vacinaId ? null : vacinaId)); 
+        setExibeId((prevId) => (prevId === vacinaId ? null : vacinaId));
     };
-    
+
 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.caixatop} onPress={() => navigation.navigate('Home')}>
-                <Image style={styles.logo} source={require('../../assets/IconeLogoCadernet.png')} />
-                <Text style={{ textAlign: 'center', marginTop: 35 }}>
+                <Image style={styles.logo} source={require('../../assets/logoApp.png')} />
+                
+            </TouchableOpacity>
+            <Text style={{ textAlign: 'center', marginTop: 0, fontSize: 15, fontStyle:"italic" }} >
                     Observe as experiências de outros pacientes com a vacina.
                 </Text>
-            </TouchableOpacity>
-    
-            <View style={styles.vacinalista}>
+            
+            <View style={{alignItems: "center", marginTop:20}}>
                 {loading ? (
                     <ActivityIndicator size="large" color="#079EFF" />
                 ) : error ? (
@@ -81,32 +81,33 @@ export default function Conexoes() {
                         keyExtractor={(item) => item.vacinaId.toString()}
                         renderItem={({ item }) => (
                             <View style={styles.caixavacina}>
-                                <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>
+                                <Text style={{ color: 'black', paddingLeft: 30, fontWeight: 'bold' }}>
                                     {item.vacinaNome}
                                 </Text>
-    
+
+
                                 <TouchableOpacity
                                     style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
-                                    onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                    onPress={() => FuncionaDetalhe(item.vacinaId)}
                                 >
-                                    <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                    <Text style={styles.detalhes}>
                                         {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
                                     </Text>
                                 </TouchableOpacity>
-    
-                                {exibeId === item.vacinaId && ( 
+
+                                {exibeId === item.vacinaId && (
                                     <View>
-                                       
+
                                         <FlatList
-                                            data={avaliacao.filter(a => a.vacinaId === item.vacinaId)}  
+                                            data={avaliacao.filter(a => a.vacinaId === item.vacinaId)}
                                             keyExtractor={(avaliacaoItem) => avaliacaoItem.avaliacaoId.toString()}
                                             renderItem={({ item: avaliacaoItem }) => (
-                                                                                        <View>
-                                                                                            <Text style={{ fontWeight: 'bold' }}>
-                                                                                                {avaliacaoItem.avaliacaoDor}  
-                                                                                            </Text>
-                                                                                        </View>
-                                                                                    )}
+                                                <View>
+                                                    <Text style={{ fontWeight: 'bold' }}>
+                                                        {avaliacaoItem.avaliacaoDor}
+                                                    </Text>
+                                                </View>
+                                            )}
                                         />
                                     </View>
                                 )}
@@ -131,8 +132,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     logo: {
-        width: 30,
-        height: 40,
+        width: 300,
+        height: 100,
         marginTop: 30
     },
 
@@ -156,9 +157,9 @@ const styles = StyleSheet.create({
     },
     caixavacina: {
         alignItems: 'center',
-        marginTop: 50,
-        marginBottom: 20,
-        marginLeft: 15,
+        marginTop: 10,
+        marginBottom: 15,
+      
         flexDirection: 'row',
         backgroundColor: '#A9DDFF',
         opacity: 0.5,
@@ -166,5 +167,9 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 15,
     },
-
+    detalhes:{
+        fontWeight: "bold", 
+        marginTop: 0,
+        
+    }
 });
