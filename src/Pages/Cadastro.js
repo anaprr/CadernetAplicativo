@@ -20,7 +20,7 @@ export default function Insirir() {
 
   async function Cadastro() {
     try {
-      const response = await fetch('http://10.139.75.47:5251/api/Usuarios/InsertUsuarios', {
+      const response = await fetch('http://10.139.75.98:5251/api/Usuarios/InsertUsuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ export default function Insirir() {
               <Picker.Item label="Masculino" value={2} />
             </Picker>
             <TextInput style={css.input}
-              placeholder=" Data de Nascimento" placeholderTextColor={'white'} onChangeText={(digitado) => setDataNascimento(digitado)} value={UsuarioDataNascimento}
+              placeholder="Ano de Nascimento" placeholderTextColor={'white'} onChangeText={(digitado) => setDataNascimento(digitado)} value={UsuarioDataNascimento}
             />
             <TextInput style={css.input}
               placeholder=" Idade" placeholderTextColor={'white'} onChangeText={(digitado) => setIdade(digitado)} value={UsuarioIdade}

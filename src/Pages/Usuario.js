@@ -1,158 +1,175 @@
-import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import Usuarios from '../Components/Usuarios'
-import { ActivityIndicator } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import PagerView from 'react-native-pager-view';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, TextInput, FlatList } from 'react-native';
+import { AuthContext } from '../Context/AuthContext';
+import { Picker } from '@react-native-picker/picker';
+import Recomendacao from './Recomendacao';
 
+const Usuario = () => {
 
-export default function Usuario() {
+  //pra fazer o botão de exibir informaçao*//
 
-  const[usuarios, setUsuarios] = useState([]);
-  const[error, setError] = useState(false);
-  const[edicao, setEdicao] = useState(false);
-  const[usuarioId, setUsuarioId] = useState(0);
-  const[usuarioNome, setUsuarioNome] = useState();
-  const[usuarioIdade, setUsuarioIdade] = useState();
-  const[deleteResposta, setResposta] = useState(false);
+  const [mostrarHistorico, setMostrarHistorico] = useState(false);
+  const [mostrarPendentes, setMostrarPendentes] = useState(false);
+  const [mostrarObservacao, setMostrarObservacao] = useState(false);
+  const exibirHistorico = () => setMostrarHistorico(!mostrarHistorico);
+  const exibirPendentes = () => setMostrarPendentes(!mostrarPendentes);
+  const exibirObservacao = () => setMostrarObservacao(!mostrarObservacao);
 
+  //para enviar avaliação pro banco*//
 
+  const [avaliacaoDor, setAvaliacaoDor] = useState("")
+  const [avaliacaoEfeitoColateral, setAvaliacaoEfeitoColateral] = useState("")
+  const [avaliacaoVezesTeveDoença, setAvaliacaoVezesTeveDoença] = useState("")
+  const [vacinaId, setVacinaId] = useState("")
+  const [usuarioId, setUsuarioId] = useState("")
+  const [sucesso, setSucesso] = useState(false)
+  const [vacinas, setVacinas] = useState();
 
-  async function getUsuarios(){
-    await fetch('http://10.139.75.98:5251/api/Usuarios/GetAllUsuarios' , {
-            method: 'GET',
-            headers:{
-                'content-type' : 'application/json'
-            }
-        })
-        .then( res => (res.ok == true) ? res.json () : false)
-        .then(json => setUsuarios(json) )
-        .catch(err => setError(true))
+  const { setNovaobs, usuario } = useContext(AuthContext);
+
+  async function NovaOBS() {
+    await fetch('http://10.139.75.53:5251/api/Avaliacaos/InsertAvaliacaos', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        avaliacaoDor: avaliacaoDor,
+        avaliacaoEfeitoColateral: avaliacaoEfeitoColateral,
+        avaliacaoVezesTeveDoença: avaliacaoVezesTeveDoença,
+        usuarioId: usuarioId,
+        vacinaId: vacinaId,
+      })
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err))
   }
 
-  async function getUsuario(id)
-  {    
-    await fetch('http://10.139.75.98:5251/api/Usuarios/GetUsuarioId/' + id,{
-            method: 'GET',
-            headers: {
-                'Content-type' : 'application/json; charset=UTF-8',
-            },
-        })
-        .then((response)=> response.json())        
-        .then(json=>{
-          setUsuarioId(json.usuarioId);
-          setUsuarioNome(json.usuarioName);
-          setUsuarioIdade(json.usuarioIdade);
-          
-        });
+  async function getVacinas() {
+    await fetch('http://10.139.75.53:5251/api/Vacinas/GetAllVacinas/')
+      .then(res => res.json())
+      .then(json => {
+        setVacinas(json);
+      })
+      .catch(err => setError(true))
   }
+
 
   useEffect(() => {
-    getUsuarios();
+    getVacinas();
   }, [])
 
-  useFocusEffect(
-    React.useCallback(()=>{
-      getUsuarios();
-    },[])
-  );
-
-
-
+  // pra criar select nomes vacinas*/
 
   return (
-    <View >
-      <View style={css.container}>
-        <Image style={{width: "40%", height: 150, marginTop: 60, resizeMode: "contain"}} source={require("../../assets/usuariofix.png")}/>
-        
-      {usuarios.length > 0 ?
-        <>
-        
-          <FlatList
-            data={usuarios}
-            renderItem={({ item }) => <Usuarios  style={css.nome} nome={item.usuarioNome}/>}
-            keyExtractor={(item) => item.usuarioId}
-            contentContainerStyle={{ height: (usuarios.length * 600) + 110 }}
-          />
-        </>
-        :
-        ( usuarios.length == 0 ? 
-            <Text style={css.text}>Sem usuarios para exibir</Text>
-          :
-            <ActivityIndicator size="large" color="#3097ff" />
-        )
-      }
+    <ScrollView style={css.container}>
+      <View style={{ alignItems: 'center' }}>
+        <Image style={css.fotouser} source={require('../../assets/usuariofix.png')} />
+        <Text style={{ marginTop: 40 }}>{usuario.usuarioNome}</Text>
+      </View>
 
-      
-     
-  </View>
-    </View>
-    
-  )
-  
-}
+      <View style={{ marginTop: 40, flexDirection: 'row' }}>
+        <Text style={{ fontSize: 20 }}>Histórico de vacinas</Text>
+        <TouchableOpacity onPress={exibirHistorico}>
+          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/mais.png')} />
+        </TouchableOpacity>
+      </View>
+      {mostrarHistorico && (
+        <View style={css.infoContainer}>
+          <Text style={css.infoText}>Histórico de vacinas:</Text>
+          <Text style={css.infoText}>- Vacina 1: COVID-19, 1ª dose</Text>
+          <Text style={css.infoText}>- Vacina 2: COVID-19, 2ª dose</Text>
+        </View>
+      )}
 
+      <View style={{ marginTop: 40, flexDirection: 'row' }}>
+        <Text style={{ fontSize: 20 }}>Vacinas pendentes</Text>
+        <TouchableOpacity onPress={exibirPendentes}>
+          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/mais.png')} />
+        </TouchableOpacity>
+      </View>
+      {mostrarPendentes && (
+        <View style={css.infoContainer}>
+          <Text style={css.infoText}>Vacinas pendentes:</Text>
+          <Text style={css.infoText}>- Vacina: Gripe, 2024</Text>
+          <Text style={css.infoText}>- Vacina: Hepatite B, 3ª dose</Text>
+        </View>
+      )}
 
+      <View style={{ marginTop: 40, flexDirection: 'row', }}>
+        <Text style={{ fontSize: 20 }}>Faça uma observação sobre uma vacina</Text>
+        <TouchableOpacity onPress={exibirObservacao}>
+          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/mais.png')} />
+        </TouchableOpacity>
+      </View>
+      {mostrarObservacao && (
+        <View style={{
+          alignItems: 'center',
+          marginTop: 10,
+          marginBottom: 50,
+          backgroundColor: '#D9F0FF',
+          borderRadius: 20,
+          height: 500,
+        }}>
+          <View style={{ marginTop: 10 }}>
+            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder="AvaliaçãoDor" placeholderTextColor={'black'} onChangeText={(digitado) => setAvaliacaoDor(digitado)} TextInput={avaliacaoDor}
+            />
+            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder="EfeitoColateral" placeholderTextColor={'black'} onChangeText={(digitado) => setAvaliacaoEfeitoColateral(digitado)} TextInput={avaliacaoEfeitoColateral}
+            />
+            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder="VezesTeveDoença" placeholderTextColor={'black'} onChangeText={(digitado) => setAvaliacaoVezesTeveDoença(digitado)} TextInput={avaliacaoVezesTeveDoença}
+            />
+            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder="usuario" placeholderTextColor={'black'} onChangeText={(digitado) => setUsuarioId(digitado)} TextInput={usuarioId}
+            />
+
+            <Picker
+              selectedValue={vacinaId}
+              onValueChange={(itemValue) => setVacinaId(itemValue)}
+              style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
+            >
+              {vacinas.map((vacina) =>
+                <Picker.Item label={vacina.vacinaNome} value={vacina.vacinaId} key={vacina.vacinaId}/>
+              )}
+
+            </Picker>
+
+          </View>
+          <TouchableOpacity style={{ backgroundColor: '#079EFF', width: 100, alignItems: 'center', borderRadius: 10, marginTop: 20 }} onPress={NovaOBS}><Text style={{ color: 'black' }}>Enviar nova Avaliação</Text></TouchableOpacity>
+        </View>
+
+      )}
+    </ScrollView>
+  );
+};
 
 const css = StyleSheet.create({
-    container: {
+  container: {
     flexGrow: 1,
-        width: "100%",
-        alignItems: "center",
-        alignContent: "center",
-        backgroundColor: "white"
-    },
-    img: {
-        width: "50%",
-        height: 150,
-        marginTop: -500,
-        resizeMode: "contain",
-    },
-    textprincipal: {
-        marginTop: 20
-    },
-    texto:{
-        marginRight: 90,
-    },
-    nome: {
-        color:"black"
-    },
-    caixatop: {
-      alignItems: 'center',
-      textAlign: 'center'
-  },
-  logo: {
-      width: 30,
-      height: 40,
-      marginTop: 30
-  },
-
-  page: {
-      alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    padding: 20,
 
   },
-  caixa1: {
+  fotouser: {
+    marginTop: 30,
+    width: 160,
+    height: 170,
+  },
+  infoContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
 
-      width: 160,
-      height: 190,
-      borderRadius: 15,
-      marginTop: 40,
-      alignItems: 'center'
 
   },
-  imagem1: {
-      width: 140,
-      height: 170,
+  infoText: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 5,
+  },
+});
 
-  },
-  caixavacina: {
-      alignItems: 'center',
-      marginTop: 50,
-      flexDirection: 'row',
-      backgroundColor: '#A9DDFF',
-      opacity: 0.5,
-      width: 350,
-      height: 50,
-      borderRadius: 15,
-  },
-})
+export default Usuario;
