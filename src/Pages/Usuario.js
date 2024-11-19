@@ -65,7 +65,7 @@ const Usuario = () => {
     <ScrollView style={css.container}>
       <View style={{ alignItems: 'center' }}>
         <Image style={css.fotouser} source={require('../../assets/usuariofix.png')} />
-        <Text style={{ marginTop: 40 }}>{usuario.usuarioNome}</Text>
+        <Text style={{ marginTop: 40 }}>{usuario.usuarioNome || 'Nome de usuário não disponível'}</Text>
       </View>
 
       <View style={{ marginTop: 40, flexDirection: 'row' }}>
@@ -135,6 +135,9 @@ const Usuario = () => {
               )}
 
             </Picker>
+
+              
+
 
           </View>
           <TouchableOpacity style={{ backgroundColor: '#079EFF', width: 100, alignItems: 'center', borderRadius: 10, marginTop: 20 }} onPress={NovaOBS}><Text style={{ color: 'black' }}>Enviar nova Avaliação</Text></TouchableOpacity>
