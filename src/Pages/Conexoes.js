@@ -2,21 +2,18 @@ import { View, ActivityIndicator, FlatList, Text, StyleSheet, Image, TouchableOp
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-
 export default function Conexoes() {
     const [vacinas, setVacinas] = useState([]);
     const [avaliacao, setAvaliacao] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [exibe, setExibe] = useState(false);
-    const [mostra, setMostra] = useState(false);
+    const [exibeId, setExibeId] = useState(null);
     const navigation = useNavigation();
-    const [fontStyleIdx, setFontStyleIdx] = useState(0);
 
     async function getVacinas() {
         setLoading(true);
         try {
-            const response = await fetch('http://10.139.75.47:5251/api/Vacinas/GetAllVacinas');
+            const response = await fetch('http://10.139.75.53:5251/api/Vacinas/GetAllVacinas');
             const data = await response.json();
             setVacinas(data);
         } catch (err) {
@@ -26,16 +23,14 @@ export default function Conexoes() {
         }
     }
 
-
     useEffect(() => {
         getVacinas();
     }, []);
 
-
     async function getAvaliacao() {
         setLoading(true);
         try {
-            const response = await fetch('http://10.139.75.47:5251/api/Avaliacaos/GetAllAvaliacaos');
+            const response = await fetch('http://10.139.75.53:5251/api/Avaliacaos/GetAllAvaliacaos');
             const data = await response.json();
             setAvaliacao(data);
         } catch (err) {
@@ -45,32 +40,34 @@ export default function Conexoes() {
         }
     }
 
-
     useEffect(() => {
         getAvaliacao();
     }, []);
-
-
-
-    const [exibeId, setExibeId] = useState(null);
-
 
     const FuncionaDetalhe = (vacinaId) => {
         setExibeId((prevId) => (prevId === vacinaId ? null : vacinaId));
     };
 
+    // Função para calcular a média da dor e convertê-la em porcentagem, limitando o máximo a 100%
+    const calcularPorcentagemMediaDor = (avaliacoes) => {
+        if (avaliacoes.length === 0) return 'N/A';
+        const somaDor = avaliacoes.reduce((acc, curr) => acc + curr.avaliacaoDor, 0);
+        const mediaDor = somaDor / avaliacoes.length;
+        const maxDor = 10; // Valor máximo esperado para avaliacaoDor (ajuste conforme necessário)
+        const porcentagemDor = (mediaDor / maxDor) * 100; // Escala a média para porcentagem baseada no valor máximo
+        return `${Math.min(porcentagemDor, 100).toFixed(0)}%`; // Garante que o valor nunca ultrapasse 100%
+    };
 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.caixatop} onPress={() => navigation.navigate('Home')}>
                 <Image style={styles.logo} source={require('../../assets/logoApp.png')} />
-                
             </TouchableOpacity>
-            <Text style={{ textAlign: 'center', marginTop: 0, fontSize: 15, fontStyle:"italic" }} >
-                    Observe as experiências de outros pacientes com a vacina.
-                </Text>
-            
-            <View style={{alignItems: "center", marginTop:20}}>
+            <Text style={{ textAlign: 'center', marginTop: 0, fontSize: 15, fontStyle: "italic" }}>
+                Observe as experiências de outros pacientes com a vacina.
+            </Text>
+
+            <View style={{ alignItems: "center", marginTop: 20 }}>
                 {loading ? (
                     <ActivityIndicator size="large" color="#079EFF" />
                 ) : error ? (
@@ -79,47 +76,59 @@ export default function Conexoes() {
                     <FlatList
                         data={vacinas}
                         keyExtractor={(item) => item.vacinaId.toString()}
-                        renderItem={({ item }) => (
-                            <View style={styles.caixavacina}>
-                                <Text style={{ color: 'black', paddingLeft: 30, fontWeight: 'bold' }}>
-                                    {item.vacinaNome}
-                                </Text>
-
-
-                                <TouchableOpacity
-                                    style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
-                                    onPress={() => FuncionaDetalhe(item.vacinaId)}
-                                >
-                                    <Text style={styles.detalhes}>
-                                        {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
-                                    </Text>
-                                </TouchableOpacity>
-
-                                {exibeId === item.vacinaId && (
-                                    <View>
-
-                                        <FlatList
-                                            data={avaliacao.filter(a => a.vacinaId === item.vacinaId)}
-                                            keyExtractor={(avaliacaoItem) => avaliacaoItem.avaliacaoId.toString()}
-                                            renderItem={({ item: avaliacaoItem }) => (
-                                                <View>
-                                                    <Text style={{ fontWeight: 'bold' }}>
-                                                        {avaliacaoItem.avaliacaoDor}
-                                                    </Text>
-                                                </View>
-                                            )}
-                                        />
+                        renderItem={({ item }) => {
+                            const avaliacoesFiltradas = avaliacao.filter(a => a.vacinaId === item.vacinaId);
+                            return (
+                                <View>
+                                    <View style={{
+                                        alignItems: 'center',
+                                        marginTop: 10,
+                                        marginBottom: 15,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        backgroundColor: '#A9DDFF',
+                                        opacity: 0.5,
+                                        width: 350,
+                                        height: 50,
+                                        borderRadius: 15,
+                                        paddingHorizontal: 20
+                                    }}>
+                                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                                            {item.vacinaNome}
+                                        </Text>
+                                        <TouchableOpacity onPress={() => FuncionaDetalhe(item.vacinaId)}>
+                                            <Text style={{ color: '#079EFF', fontWeight: 'bold' }}>
+                                                {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                            </Text>
+                                        </TouchableOpacity>
                                     </View>
-                                )}
-                            </View>
-                        )}
+                                    {exibeId === item.vacinaId && (
+                                        <View>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                                Média de dor: {calcularPorcentagemMediaDor(avaliacoesFiltradas)}
+                                            </Text>
+                                            <FlatList
+                                                data={avaliacoesFiltradas}
+                                                keyExtractor={(avaliacaoItem) => avaliacaoItem.avaliacaoId.toString()}
+                                                renderItem={({ item: avaliacaoItem }) => (
+                                                    <View>
+                                                        <Text style={{ fontWeight: 'bold' }}>
+                                                            Nível de dor individual: {avaliacaoItem.avaliacaoDor}
+                                                        </Text>
+                                                    </View>
+                                                )}
+                                            />
+                                        </View>
+                                    )}
+                                </View>
+                            );
+                        }}
                     />
                 )}
             </View>
         </View>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -154,18 +163,6 @@ const styles = StyleSheet.create({
         width: 140,
         height: 170,
 
-    },
-    caixavacina: {
-        alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 15,
-      
-        flexDirection: 'row',
-        backgroundColor: '#A9DDFF',
-        opacity: 0.5,
-        width: 350,
-        height: 50,
-        borderRadius: 15,
     },
     detalhes:{
         fontWeight: "bold", 
