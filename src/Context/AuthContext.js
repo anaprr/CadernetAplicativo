@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {   
-    const [logado, setLogado] = useState(false);
+    const [logado, setLogado] = useState(true);
     const [error, setError] = useState(false);
     const [cadastro, setCadastro] = useState(false);
     const [novaobs, setNovaobs ] = useState( false );

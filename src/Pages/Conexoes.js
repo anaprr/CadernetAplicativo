@@ -51,10 +51,17 @@ export default function Conexoes() {
     // Função para calcular a média da dor e convertê-la em porcentagem, limitando o máximo a 100%
     const calcularPorcentagemMediaDor = (avaliacoes) => {
         if (avaliacoes.length === 0) return 'N/A';
+        
         const somaDor = avaliacoes.reduce((acc, curr) => acc + curr.avaliacaoDor, 0);
         const mediaDor = somaDor / avaliacoes.length;
         const maxDor = 10; // Valor máximo esperado para avaliacaoDor (ajuste conforme necessário)
-        const porcentagemDor = (mediaDor / maxDor) * 100; // Escala a média para porcentagem baseada no valor máximo
+        
+        // Verifica se todas as avaliações são 10, caso contrário, não permite 100%
+        const todasNotas10 = avaliacoes.every(a => a.avaliacaoDor === 10);
+
+        // Se todas as notas forem 10, a média pode ser 100%, senão, limita abaixo de 100%
+        const porcentagemDor = todasNotas10 ? 10 : (mediaDor / maxDor) * 100;
+        
         return `${Math.min(porcentagemDor, 100).toFixed(0)}%`; // Garante que o valor nunca ultrapasse 100%
     };
 
