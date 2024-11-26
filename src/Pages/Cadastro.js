@@ -20,7 +20,7 @@ export default function Insirir() {
 
   async function Cadastro() {
     try {
-      const response = await fetch('http://10.139.75.47:5251/api/Usuarios/InsertUsuarios', {
+      const response = await fetch('http://10.139.75.53:5251/api/Usuarios/InsertUsuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

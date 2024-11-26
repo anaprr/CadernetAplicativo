@@ -28,7 +28,7 @@ const Usuario = () => {
   const { setNovaobs, usuario } = useContext(AuthContext);
 
   async function NovaOBS() {
-    await fetch('http://10.139.75.47:5251/api/Avaliacaos/InsertAvaliacaos', {
+    await fetch('http://10.139.75.53:5251/api/Avaliacaos/InsertAvaliacaos', {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -46,7 +46,7 @@ const Usuario = () => {
   }
 
   async function getVacinas() {
-    await fetch('http://10.139.75.47:5251/api/Vacinas/GetAllVacinas/')
+    await fetch('http://10.139.75.53:5251/api/Vacinas/GetAllVacinas/')
       .then(res => res.json())
       .then(json => {
         setVacinas(json);
