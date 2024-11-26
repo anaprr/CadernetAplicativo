@@ -69,9 +69,9 @@ const Usuario = () => {
       </View>
 
       <View style={{ marginTop: 40, flexDirection: 'row' }}>
-        <Text style={{ fontSize: 20 }}>Histórico de vacinas</Text>
+        <Text style={{ fontSize: 18 }}>Histórico de vacinas</Text>
         <TouchableOpacity onPress={exibirHistorico}>
-          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/mais.png')} />
+          <Image style={{ width: 35, height: 34, marginLeft: 10}} source={require('../../assets/iconseta.png')} />
         </TouchableOpacity>
       </View>
       {mostrarHistorico && (
@@ -83,9 +83,9 @@ const Usuario = () => {
       )}
 
       <View style={{ marginTop: 40, flexDirection: 'row' }}>
-        <Text style={{ fontSize: 20 }}>Vacinas pendentes</Text>
+        <Text style={{ fontSize: 18 }}>Vacinas pendentes</Text>
         <TouchableOpacity onPress={exibirPendentes}>
-          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/mais.png')} />
+          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/iconseta.png')} />
         </TouchableOpacity>
       </View>
       {mostrarPendentes && (
@@ -97,9 +97,9 @@ const Usuario = () => {
       )}
 
       <View style={{ marginTop: 40, flexDirection: 'row', }}>
-        <Text style={{ fontSize: 20 }}>Faça uma observação sobre uma vacina</Text>
+        <Text style={{ fontSize: 18 }}>Faça uma observação sobre uma vacina</Text>
         <TouchableOpacity onPress={exibirObservacao}>
-          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/mais.png')} />
+          <Image style={{ width: 35, height: 35, marginLeft: 10 }} source={require('../../assets/iconseta.png')} />
         </TouchableOpacity>
       </View>
       {mostrarObservacao && (
@@ -108,27 +108,27 @@ const Usuario = () => {
           marginTop: 10,
           marginBottom: 50,
           backgroundColor: '#D9F0FF',
-          borderRadius: 20,
-          height: 500,
+          borderRadius: 15,
+          height: 450,
         }}>
           <View style={{ marginTop: 10 }}>
-            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
-              placeholder="AvaliaçãoDor" placeholderTextColor={'black'} onChangeText={(digitado) => setAvaliacaoDor(digitado)} TextInput={avaliacaoDor}
+            <TextInput style={{ backgroundColor: 'white', width: 320, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder=" Avaliação da Dor" placeholderTextColor={'gray'} onChangeText={(digitado) => setAvaliacaoDor(digitado)} TextInput={avaliacaoDor}
             />
-            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
-              placeholder="EfeitoColateral" placeholderTextColor={'black'} onChangeText={(digitado) => setAvaliacaoEfeitoColateral(digitado)} TextInput={avaliacaoEfeitoColateral}
+            <TextInput style={{ backgroundColor: 'white', width: 320, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder=" Efeito Colateral" placeholderTextColor={'gray'} onChangeText={(digitado) => setAvaliacaoEfeitoColateral(digitado)} TextInput={avaliacaoEfeitoColateral}
             />
-            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
-              placeholder="VezesTeveDoença" placeholderTextColor={'black'} onChangeText={(digitado) => setAvaliacaoVezesTeveDoença(digitado)} TextInput={avaliacaoVezesTeveDoença}
+            <TextInput style={{ backgroundColor: 'white', width: 320, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder=" Quantas vezes teve a doença" placeholderTextColor={'gray'} onChangeText={(digitado) => setAvaliacaoVezesTeveDoença(digitado)} TextInput={avaliacaoVezesTeveDoença}
             />
-            <TextInput style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
-              placeholder="usuario" placeholderTextColor={'black'} onChangeText={(digitado) => setUsuarioId(digitado)} TextInput={usuarioId}
+            <TextInput style={{ backgroundColor: 'white', width: 320, height: 45, borderRadius: 15, marginTop: 20 }}
+              placeholder=" Usuário" placeholderTextColor={'gray'} onChangeText={(digitado) => setUsuarioId(digitado)} TextInput={usuarioId}
             />
 
             <Picker
               selectedValue={vacinaId}
               onValueChange={(itemValue) => setVacinaId(itemValue)}
-              style={{ backgroundColor: 'white', width: 250, height: 45, borderRadius: 15, marginTop: 20 }}
+              style={{ backgroundColor: 'white', width: 320, height: 5, marginTop: 20 }}
             >
               {vacinas.map((vacina) =>
                 <Picker.Item label={vacina.vacinaNome} value={vacina.vacinaId} key={vacina.vacinaId}/>
@@ -140,7 +140,7 @@ const Usuario = () => {
 
 
           </View>
-          <TouchableOpacity style={{ backgroundColor: '#079EFF', width: 100, alignItems: 'center', borderRadius: 10, marginTop: 20 }} onPress={NovaOBS}><Text style={{ color: 'black' }}>Enviar nova Avaliação</Text></TouchableOpacity>
+          <TouchableOpacity style={{ backgroundColor: '#079EFF', width: "85%", alignItems: 'center', borderRadius: 10, marginTop: 20, height: 50,  }} onPress={NovaOBS}><Text style={{ color: 'white', padding: 14 }}>Enviar nova Avaliação</Text></TouchableOpacity>
         </View>
 
       )}
@@ -163,7 +163,7 @@ const css = StyleSheet.create({
   infoContainer: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#A7DBFF',
     borderRadius: 8,
 
 
