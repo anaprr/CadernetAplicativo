@@ -52,35 +52,40 @@ export default function Recomendacao() {
                         <Text style={{ marginTop: 30 }}>0-10 anos</Text>
                     </View>
                     {vacinas ?
-                        <View style={styles.vacinalista}>
+                        <View style={{marginTop: 50}}>
                             <FlatList
                                 data={vacinas}
                                 keyExtractor={(item) => item.vacinaId.toString()}
                                 renderItem={({ item }) => (
-                                    <View style={styles.caixavacina}>
-                                        <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                        <TouchableOpacity
-                                            style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
-                                            onPress={() => FuncionaDetalhe(item.vacinaId)} 
-                                        >
-                                            <Text style={{ fontWeight: "bold", marginTop: 10 }}>
-                                                {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                    <View>
+                                        <View style={styles.caixavacina}>
+                                            <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
+                                            <TouchableOpacity
+                                                style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                                onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                            >
+                                                <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                                    {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        {exibeId === item.vacinaId && (
+                                        <View style={{ textAlign: 'center', width: 300}}>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                            {item.vacinaDescricao}
                                             </Text>
-                                        </TouchableOpacity>
-    
-                                        {exibeId === item.vacinaId && ( 
-                                            <View>
-                                                    <Text>{item.vacinaDescricao}</Text>
-                                            </View>
+                                            
+                                        </View>
                                         )}
                                     </View>
-                                )}
+                                    )}
                             />
                         </View>
                         :
                         <ActivityIndicator size="large" />
                     }
                 </View>
+
                 <View style={styles.page} key="2">
                     <View style={styles.caixa1}>
                         <View>
@@ -91,22 +96,39 @@ export default function Recomendacao() {
                         </View>
                     </View>
                     <View style={styles.vacinalista}>
-                        {vacinas.length > 0 ?
-                            <View style={styles.vacinalista}>
-                                <FlatList
-                                    data={vacinas}
-                                    keyExtractor={(item) => item.vacinaId.toString()}
-                                    renderItem={({ item }) => (
+                                            {vacinas ?
+                        <View style={{marginTop: 50}}>
+                            <FlatList
+                                data={vacinas}
+                                keyExtractor={(item) => item.vacinaId.toString()}
+                                renderItem={({ item }) => (
+                                    <View>
                                         <View style={styles.caixavacina}>
                                             <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                            <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
+                                            <TouchableOpacity
+                                                style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                                onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                            >
+                                                <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                                    {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
+                                        {exibeId === item.vacinaId && (
+                                        <View style={{ textAlign: 'center', width: 300}}>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                            {item.vacinaDescricao}
+                                            </Text>
+                                            
+                                        </View>
+                                        )}
+                                    </View>
                                     )}
-                                />
-                            </View>
-                            :
-                            <Text>Sem vacinas</Text>
-                        }
+                            />
+                        </View>
+                        :
+                        <ActivityIndicator size="large" />
+                    }
                     </View>
                 </View>
                 <View style={styles.page} key="3">
@@ -119,22 +141,39 @@ export default function Recomendacao() {
                         </View>
                     </View>
                     <View style={styles.vacinalista}>
-                        {vacinas.length > 0 ?
-                            <View style={styles.vacinalista}>
-                                <FlatList
-                                    data={vacinas}
-                                    keyExtractor={(item) => item.vacinaId.toString()}
-                                    renderItem={({ item }) => (
+                    {vacinas ?
+                        <View style={{marginTop: 50}}>
+                            <FlatList
+                                data={vacinas}
+                                keyExtractor={(item) => item.vacinaId.toString()}
+                                renderItem={({ item }) => (
+                                    <View>
                                         <View style={styles.caixavacina}>
                                             <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                            <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
+                                            <TouchableOpacity
+                                                style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                                onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                            >
+                                                <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                                    {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
+                                        {exibeId === item.vacinaId && (
+                                        <View style={{ textAlign: 'center', width: 300}}>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                            {item.vacinaDescricao}
+                                            </Text>
+                                            
+                                        </View>
+                                        )}
+                                    </View>
                                     )}
-                                />
-                            </View>
-                            :
-                            <Text>Sem vacinas</Text>
-                        }
+                            />
+                        </View>
+                        :
+                        <ActivityIndicator size="large" />
+                    }
                     </View>
                 </View>
                 <View style={styles.page} key="5">
@@ -147,22 +186,39 @@ export default function Recomendacao() {
                         </View>
                     </View>
                     <View style={styles.vacinalista}>
-                        {vacinas.length > 0 ?
-                            <View style={styles.vacinalista}>
-                                <FlatList
-                                    data={vacinas}
-                                    keyExtractor={(item) => item.vacinaId.toString()}
-                                    renderItem={({ item }) => (
+                    {vacinas ?
+                        <View style={{marginTop: 50}}>
+                            <FlatList
+                                data={vacinas}
+                                keyExtractor={(item) => item.vacinaId.toString()}
+                                renderItem={({ item }) => (
+                                    <View>
                                         <View style={styles.caixavacina}>
                                             <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                            <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
+                                            <TouchableOpacity
+                                                style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                                onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                            >
+                                                <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                                    {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
+                                        {exibeId === item.vacinaId && (
+                                        <View style={{ textAlign: 'center', width: 300}}>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                            {item.vacinaDescricao}
+                                            </Text>
+                                            
+                                        </View>
+                                        )}
+                                    </View>
                                     )}
-                                />
-                            </View>
-                            :
-                            <Text>Sem vacinas</Text>
-                        }
+                            />
+                        </View>
+                        :
+                        <ActivityIndicator size="large" />
+                    }
                     </View>
                 </View>
                 <View style={styles.page} key="6">
@@ -175,22 +231,39 @@ export default function Recomendacao() {
                         </View>
                     </View>
                     <View style={styles.vacinalista}>
-                        {vacinas.length > 0 ?
-                            <View style={styles.vacinalista}>
-                                <FlatList
-                                    data={vacinas}
-                                    keyExtractor={(item) => item.vacinaId.toString()}
-                                    renderItem={({ item }) => (
+                    {vacinas ?
+                        <View style={{marginTop: 50}}>
+                            <FlatList
+                                data={vacinas}
+                                keyExtractor={(item) => item.vacinaId.toString()}
+                                renderItem={({ item }) => (
+                                    <View>
                                         <View style={styles.caixavacina}>
                                             <Text style={{ color: 'black', paddingLeft: 20, fontWeight: 'bold' }}>{item.vacinaNome}</Text>
-                                            <Text style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}>Exibir Mais</Text>
+                                            <TouchableOpacity
+                                                style={{ color: '#079EFF', paddingLeft: 160, fontWeight: 'bold' }}
+                                                onPress={() => FuncionaDetalhe(item.vacinaId)} 
+                                            >
+                                                <Text style={{ fontWeight: "bold", marginTop: 10 }}>
+                                                    {exibeId === item.vacinaId ? 'Fechar Detalhes' : 'Detalhes'}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
+                                        {exibeId === item.vacinaId && (
+                                        <View style={{ textAlign: 'center', width: 300}}>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                            {item.vacinaDescricao}
+                                            </Text>
+                                            
+                                        </View>
+                                        )}
+                                    </View>
                                     )}
-                                />
-                            </View>
-                            :
-                            <Text>Sem vacinas</Text>
-                        }
+                            />
+                        </View>
+                        :
+                        <ActivityIndicator size="large" />
+                    }
                     </View>
                 </View>
 
@@ -236,13 +309,16 @@ const styles = StyleSheet.create({
     },
     caixavacina: {
         alignItems: 'center',
-        marginTop: 50,
+        marginTop: 10,
+        marginBottom: 15,
         flexDirection: 'row',
+        justifyContent: 'space-between',
         backgroundColor: '#A9DDFF',
         opacity: 0.5,
         width: 350,
         height: 50,
         borderRadius: 15,
+        paddingHorizontal: 20
     },
 
 });
