@@ -48,22 +48,42 @@ export default function Conexoes() {
         setExibeId((prevId) => (prevId === vacinaId ? null : vacinaId));
     };
 
-    // Função para calcular a média da dor e convertê-la em porcentagem, limitando o máximo a 100%
-    const calcularPorcentagemMediaDor = (avaliacoes) => {
-        if (avaliacoes.length === 0) return 'N/A';
-        
-        const somaDor = avaliacoes.reduce((acc, curr) => acc + curr.avaliacaoDor, 0);
-        const mediaDor = somaDor / avaliacoes.length;
-        const maxDor = 10; // Valor máximo esperado para avaliacaoDor (ajuste conforme necessário)
-        
-        // Verifica se todas as avaliações são 10, caso contrário, não permite 100%
-        const todasNotas10 = avaliacoes.every(a => a.avaliacaoDor === 10);
 
-        // Se todas as notas forem 10, a média pode ser 100%, senão, limita abaixo de 100%
-        const porcentagemDor = todasNotas10 ? 10 : (mediaDor / maxDor) * 100;
-        
-        return `${Math.min(porcentagemDor, 100).toFixed(0)}%`; // Garante que o valor nunca ultrapasse 100%
-    };
+    function calcularMedia(avaliacoes) {
+        if (!avaliacoes || avaliacoes.length === 0) return 0; 
+    
+
+        const soma = avaliacoes.reduce((acc, curr) => {
+            const valor = parseInt(curr.avaliacaoDor, 10); 
+            return !isNaN(valor) ? acc + valor : acc; 
+        }, 0);
+    
+        return Math.floor(soma / avaliacoes.length); 
+    }
+
+    function calcularMediaEfeitoColateral(avaliacoes) {
+        if (!avaliacoes || avaliacoes.length === 0) return 0;
+    
+        const soma = avaliacoes.reduce((acc, curr) => {
+            const valor = parseInt(curr.avaliacaoEfeitoColateral, 10); 
+            return !isNaN(valor) ? acc + valor : acc;
+        }, 0);
+    
+        return Math.floor(soma / avaliacoes.length); 
+    }
+
+    function calcularMediaVezesTeveDoença(avaliacoes) {
+        if (!avaliacoes || avaliacoes.length === 0) return 0;
+    
+        const soma = avaliacoes.reduce((acc, curr) => {
+            const valor = parseInt(curr.avaliacaoVezesTeveDoença, 10); 
+            return !isNaN(valor) ? acc + valor : acc;
+        }, 0);
+    
+        return Math.floor(soma / avaliacoes.length); 
+    }
+
+    
 
     return (
         <View style={styles.container}>
@@ -110,21 +130,18 @@ export default function Conexoes() {
                                         </TouchableOpacity>
                                     </View>
                                     {exibeId === item.vacinaId && (
-                                        <View>
+                                        <View style={{ textAlign: 'center', width: 300}}>
                                             <Text style={{ fontWeight: 'bold' }}>
-                                                Média de dor: {calcularPorcentagemMediaDor(avaliacoesFiltradas)}
+                                                {Math.min(calcularMedia(avaliacoesFiltradas) * 10, 100)}% dos pacientes sentiram dores ao tomar essa vacina.
                                             </Text>
-                                            <FlatList
-                                                data={avaliacoesFiltradas}
-                                                keyExtractor={(avaliacaoItem) => avaliacaoItem.avaliacaoId.toString()}
-                                                renderItem={({ item: avaliacaoItem }) => (
-                                                    <View>
-                                                        <Text style={{ fontWeight: 'bold' }}>
-                                                            Nível de dor individual: {avaliacaoItem.avaliacaoDor}
-                                                        </Text>
-                                                    </View>
-                                                )}
-                                            />
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                                
+                                                 {Math.min(calcularMediaEfeitoColateral(avaliacoesFiltradas) * 10, 100)}% dos pacientes sentiram efeitos colaterais ao tomar essa vacina.
+                                            </Text>
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                                
+                                                {Math.min(calcularMediaVezesTeveDoença(avaliacoesFiltradas) * 10, 100)}% dos pacientes contrairam a doença após tomar essa vacina.
+                                            </Text>
                                         </View>
                                     )}
                                 </View>
