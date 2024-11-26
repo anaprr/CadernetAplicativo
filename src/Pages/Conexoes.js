@@ -13,7 +13,7 @@ export default function Conexoes() {
     async function getVacinas() {
         setLoading(true);
         try {
-            const response = await fetch('http://10.139.75.53:5251/api/Vacinas/GetAllVacinas');
+            const response = await fetch('http://10.139.75.47:5251/api/Vacinas/GetAllVacinas');
             const data = await response.json();
             setVacinas(data);
         } catch (err) {
